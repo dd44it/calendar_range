@@ -2,9 +2,11 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import db from "./db/dbConnection";
 import dotenv from 'dotenv';
+const cors = require('cors')
 
 const app = express();
 const port = 5050;
+app.use(cors());
 dotenv.config();
 
 app.use(bodyParser.json());
