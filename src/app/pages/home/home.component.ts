@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { DateService } from 'src/app/services/date.service';
 
 @Component({
@@ -48,6 +48,16 @@ export class HomeComponent implements OnInit {
 
       console.log('Start Date:', startDate);
       console.log('End Date:', endDate);
+      const obj = { date_start: startDate, date_end: endDate };
+      this.datesService.postDates(obj).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.error("Error occurred while get data to mysql. Error: ", error);
+        }
+      )
+
     } else {
       console.error('Please select a valid date range before saving.');
     }
