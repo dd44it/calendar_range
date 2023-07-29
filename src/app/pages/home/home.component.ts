@@ -1,25 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DateService } from 'src/app/services/date.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.component.html',
 })
-export class HomeComponent {
-  disabledDates = [
-    new Date('2020-02-05'),
-    new Date('2020-02-09'),
-    new Date('2023-07-23'),
-    new Date('2023-07-24'),
-    new Date('2023-07-25'),
-  ];
-  startDate: Date = new Date();
-  endDate: Date = new Date();
+export class HomeComponent implements OnInit {
+  disabledDates: Date[] = []
+  
+  constructor(private datesService: DateService,){}
 
-  onStartDateChange() {
-    // Handle start date change if needed
+  ngOnInit(): void {
+    this.getDateList()
   }
 
-  onEndDateChange() {
-    // Handle end date change if needed
+  getDateList(): void {
+    this.datesService.getDates().subscribe(
+      (response) => {
+        this.disabledDates = this.extractIndividualDates(response);
+      },
+      (error) => {
+        console.error("Error occurred while get data to mysql. Error: ", error);
+      }
+    )
   }
+
+  private extractIndividualDates(dateRanges: any[]): Date[] {
+    const individualDates: Date[] = [];
+    dateRanges.forEach((dateRange) => {
+      const startDate = new Date(dateRange.date_start);
+      const endDate = new Date(dateRange.date_end);
+
+      const currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        individualDates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    });
+    return individualDates;
+  }
+
 }
