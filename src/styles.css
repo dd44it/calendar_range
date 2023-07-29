@@ -1,0 +1,36 @@
+:root {
+  --colorText: #030302;
+  --background: #f9f9f6;
+  --primaryColor: #27244c;
+  --secondaryColor: #ffffff;
+  --accentColor: #58557c;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, app-root {
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1rem;
+  background-color: var(--background);
+}
+
+.site-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  padding: 20px 0;
+}
