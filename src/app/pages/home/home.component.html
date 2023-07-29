@@ -3,8 +3,10 @@
 <div class="col-xs-12 col-12 col-md-4 form-group" style="margin: 0 auto;">
   <input type="text"
          placeholder="Daterangepicker"
-         class="form-control"
+         class="form-control mb-3"
          bsDaterangepicker
          [bsConfig]="{ rangeInputFormat : 'DD.MM.YYYY', dateInputFormat: 'DD.MM.YYYY', showWeekNumbers: false }"
-         [datesDisabled]="disabledDates">
+         [datesDisabled]="disabledDates"
+         [(ngModel)]="selectedDateRange">
+  <button class="btn btn-primary" (click)="saveDates()">Save my choice</button>
 </div>

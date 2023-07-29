@@ -6,7 +6,8 @@ import { DateService } from 'src/app/services/date.service';
   templateUrl: 'home.component.html',
 })
 export class HomeComponent implements OnInit {
-  disabledDates: Date[] = []
+  disabledDates: Date[] = [];
+  selectedDateRange: any;
   
   constructor(private datesService: DateService,){}
 
@@ -38,6 +39,18 @@ export class HomeComponent implements OnInit {
       }
     });
     return individualDates;
+  }
+
+  saveDates(): void {
+    if (this.selectedDateRange && this.selectedDateRange.length === 2) {
+      const startDate = this.selectedDateRange[0].toISOString().substring(0, 10);
+      const endDate = this.selectedDateRange[1].toISOString().substring(0, 10);
+
+      console.log('Start Date:', startDate);
+      console.log('End Date:', endDate);
+    } else {
+      console.error('Please select a valid date range before saving.');
+    }
   }
 
 }
