@@ -37,8 +37,9 @@ app.post('/date', async (req: Request, res: Response) => {
 
     const insertQuery = "INSERT INTO date (date_start, date_end) VALUES (?, ?)";
     await db.promise().query(insertQuery, [date_start, date_end]);
+    const [rows, fields] = await db.promise().query('SELECT * FROM date');
 
-    res.json({ message: "Data inserted successfully" });
+    res.json({ message: "Data inserted successfully", result: rows, inserted_date: [date_start, date_end] });
 
   }
   catch(err){
