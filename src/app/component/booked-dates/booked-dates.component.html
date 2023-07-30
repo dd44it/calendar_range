@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <div class="col-xs-12 col-12 col-md-8  form-group mx-auto">
+    <h2>These dates have been booked</h2>
+    <span *ngFor="let date of listBookedDates; let last = last">
+      {{date}}
+      <span *ngIf="!last">/</span>
+    </span>
+  </div>
+</div>
