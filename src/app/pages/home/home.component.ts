@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
       const checkRangeValidation = this.isCleanDates(userRangeArray);
       if(checkRangeValidation){
         const failGIF = "https://media.tenor.com/q9_zZ9BgOYEAAAAM/bart-the-simpsons.gif"
-        this.openResultModal("You choose not valid range. Inside you range booked dates.", failGIF);
+        this.openResultModal("You have selected an invalid range. There are already reserved dates within your chosen range. We apologize for the inconvenience; please select a different range.", failGIF);
         return;
       }
 
