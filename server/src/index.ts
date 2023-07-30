@@ -25,12 +25,12 @@ app.post('/date', async (req: Request, res: Response) => {
   try{
     const { date_start, date_end } = req.body;
     if(!date_start || !date_end) {
-      return res.status(400).json({ error: "All data are mandatory" });
+      return res.status(200).json({ error: "All data are mandatory" });
     }
     const startDate = new Date(date_start);
     const endDate = new Date(date_end);
     if (endDate < startDate) {
-      return res.status(400).json({ error: "date_end cannot be smaller than date_start." });
+      return res.status(200).json({ error: "date_end cannot be smaller than date_start." });
     }
 
     //  !TODO: add conditional date_start and date_end, this dates shouldn't be in db
