@@ -25,14 +25,13 @@ export class HomeComponent implements OnInit, OnDestroy  {
   ){}
 
   ngOnInit(): void {
-    this.getDateList()
+    this.getDateList();
   }
 
   getDateList(): void {
     this.getSubscription = this.datesService.getDates().subscribe(
       (response) => {
         this.disabledDates = this.datesService.extractIndividualDates(response);
-        console.log(this.disabledDates)
       },
       (error) => {
         console.error("Error occurred while get data to mysql. Error: ", error);
@@ -52,6 +51,13 @@ export class HomeComponent implements OnInit, OnDestroy  {
       const formattedStartDate = this.datesService.formatDateToStringForDB(startDate);
       const formattedEndDate = this.datesService.formatDateToStringForDB(endDate);
       const obj = { date_start: formattedStartDate, date_end: formattedEndDate };
+
+      const userRangeArray = this.datesService.extractIndividualDates([obj]);
+      const checkRangeValidation = this.isCleanDates(userRangeArray);
+      if(checkRangeValidation){
+        this.openResultModal("You choose not valid range. Inside you range booked dates.");
+        return;
+      }
 
       this.postSubscription = this.datesService.postDates(obj).subscribe(
         (response) => {
@@ -74,6 +80,22 @@ export class HomeComponent implements OnInit, OnDestroy  {
     } else {
       console.error('Please select a valid date range before saving.');
     }
+  }
+
+  isCleanDates(rangeUser: Date[]): boolean {
+    let flagValidation = false;
+    if(!this.disabledDates.length){
+      return false;
+    }
+    const formatBookedDate = this.disabledDates.map(date => this.datesService.formatDateToStringForDB(date));
+    const formatUserRange = rangeUser.map(date => this.datesService.formatDateToStringForDB(date));
+    for(let date of formatUserRange){ 
+      if(formatBookedDate.includes(date)){
+        flagValidation = true;
+        break;
+      }
+    }
+    return flagValidation;
   }
 
   openResultModal(resultMessage: string): void {
