@@ -11,12 +11,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ResultModalComponent } from './component/result-modal/result-modal.component';
+import { HeaderComponent } from './component/header/header.component';
+import { BookedDatesComponent } from './component/booked-dates/booked-dates.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ResultModalComponent
+    ResultModalComponent,
+    HeaderComponent,
+    BookedDatesComponent
   ],
   imports: [
     BrowserModule,
