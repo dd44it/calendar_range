@@ -50,4 +50,28 @@ export class DateService {
     );
   }
 
+  extractIndividualDates(dateRanges: any[]): Date[] {
+    const step = 1;
+    const individualDates: Date[] = [];
+    dateRanges.forEach((dateRange) => {
+      const startDate = new Date(dateRange.date_start);
+      const endDate = new Date(dateRange.date_end);
+
+      const currentDate = new Date(startDate);
+      while (currentDate <= endDate) {
+        individualDates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + step);
+      }
+    });
+    return individualDates;
+  }
+
+  formatDateToStringForDB(date: Date): string {
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+  }
+
+  formatDateToStringForClient(date: Date): string {
+    return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
+  }
+
 }

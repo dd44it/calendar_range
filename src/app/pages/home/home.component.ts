@@ -31,29 +31,13 @@ export class HomeComponent implements OnInit, OnDestroy  {
   getDateList(): void {
     this.getSubscription = this.datesService.getDates().subscribe(
       (response) => {
-        this.disabledDates = this.extractIndividualDates(response);
+        this.disabledDates = this.datesService.extractIndividualDates(response);
         console.log(this.disabledDates)
       },
       (error) => {
         console.error("Error occurred while get data to mysql. Error: ", error);
       }
     )
-  }
-
-  private extractIndividualDates(dateRanges: any[]): Date[] {
-    const step = 1;
-    const individualDates: Date[] = [];
-    dateRanges.forEach((dateRange) => {
-      const startDate = new Date(dateRange.date_start);
-      const endDate = new Date(dateRange.date_end);
-
-      const currentDate = new Date(startDate);
-      while (currentDate <= endDate) {
-        individualDates.push(new Date(currentDate));
-        currentDate.setDate(currentDate.getDate() + step);
-      }
-    });
-    return individualDates;
   }
 
   saveDates(): void {
@@ -65,8 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy  {
     if (this.selectedDateRange && this.selectedDateRange.length === 2) {
       const startDate = new Date(this.selectedDateRange[0]);
       const endDate = new Date(this.selectedDateRange[1]);
-      const formattedStartDate = this.formatDateToString(startDate);
-      const formattedEndDate = this.formatDateToString(endDate);
+      const formattedStartDate = this.datesService.formatDateToStringForDB(startDate);
+      const formattedEndDate = this.datesService.formatDateToStringForDB(endDate);
       const obj = { date_start: formattedStartDate, date_end: formattedEndDate };
 
       this.postSubscription = this.datesService.postDates(obj).subscribe(
@@ -76,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
             return;
           }
           this.openResultModal(response.body.message);
-          const newDates = this.extractIndividualDates(response.body.result);
+          const newDates = this.datesService.extractIndividualDates(response.body.result);
           this.datepicker.bsValue = newDates;
           this.disabledDates = newDates;
           this.datepicker.bsConfig = { ...this.datepicker.bsConfig, datesDisabled: this.disabledDates };
@@ -90,10 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy  {
     } else {
       console.error('Please select a valid date range before saving.');
     }
-  }
-
-  formatDateToString(date: Date): string {
-    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
 
   openResultModal(resultMessage: string): void {
