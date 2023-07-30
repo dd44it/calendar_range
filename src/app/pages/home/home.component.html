@@ -1,17 +1,27 @@
 <div class="container-fluid">
   <div class="col-xs-12 col-12 col-md-5  form-group mx-auto">
     <h2> Book your favorite dates. </h2>
-    <h4>Note: you can choose only unique date range. </h4>
-    <input type="text"
-           placeholder="Daterangepicker"
-           class="form-control mb-3"
-           bsDaterangepicker
-           [bsConfig]="{ rangeInputFormat : 'DD.MM.YYYY', showWeekNumbers: false }"
-           [datesDisabled]="disabledDates"
-           [(ngModel)]="selectedDateRange"
-    >
-    <div class="button-wrapper d-flex justify-content-end">
-      <button class="btn btn-primary" (click)="saveDates()">Save my choice</button>
-    </div>
+    <h6>Note: you can choose only unique date range. </h6>
+    <form #dateRangeForm="ngForm" (ngSubmit)="saveDates()">
+      <input type="text"
+        placeholder="Daterangepicker"
+        class="form-control"
+        name="dateRangeInput"
+        bsDaterangepicker
+        [bsConfig]="{ rangeInputFormat : 'DD.MM.YYYY', showWeekNumbers: false }"
+        [datesDisabled]="disabledDates"
+        [(ngModel)]="selectedDateRange"
+        #dateRangeInput="ngModel"
+        required 
+        [ngClass]="{'border-danger': dateRangeInput.invalid && (dateRangeInput.dirty || dateRangeInput.touched)}"
+      />
+      <small class="form-text text-danger" *ngIf="dateRangeInput.invalid && (dateRangeInput.dirty || dateRangeInput.touched)">
+        Please choose a date range.
+      </small>
+      <div class="button-wrapper d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary">Save my choice</button>
+      </div>
+    </form>
+
   </div>
 </div>

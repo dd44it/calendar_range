@@ -3,6 +3,7 @@ import { DateService } from 'src/app/services/date.service';
 import { BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ResultModalComponent } from 'src/app/component/result-modal/result-modal.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ export class HomeComponent implements OnInit {
   disabledDates: Date[] = [];
   selectedDateRange: any;
   readonlyInput: string = '';
+  @ViewChild('dateRangeForm', { static: true }) dateRangeForm!: NgForm;
   @ViewChild(BsDaterangepickerDirective, { static: true }) datepicker!: BsDaterangepickerDirective;
 
   constructor(
@@ -52,7 +54,11 @@ export class HomeComponent implements OnInit {
   }
 
   saveDates(): void {
-    console.log(this.selectedDateRange)
+    if (!this.selectedDateRange || this.selectedDateRange.length === 0) {
+      this.openResultModal("Please choose a date range.");
+      return;
+    }
+
     if (this.selectedDateRange && this.selectedDateRange.length === 2) {
       const startDate = new Date(this.selectedDateRange[0]);
       const endDate = new Date(this.selectedDateRange[1]);
@@ -64,14 +70,14 @@ export class HomeComponent implements OnInit {
         (response) => {
           if(response.body.error){
             this.openResultModal(response.body.error);
-            return
+            return;
           }
           this.openResultModal(response.body.message);
           const newDates = this.extractIndividualDates(response.body.result);
           this.datepicker.bsValue = newDates;
           this.disabledDates = newDates;
           this.datepicker.bsConfig = { ...this.datepicker.bsConfig, datesDisabled: this.disabledDates };
-          this.selectedDateRange = [];
+          this.dateRangeForm.resetForm();
         },
         (error) => {
           console.error("Error occurred while get data to mysql. Error: ", error);
