@@ -22,7 +22,7 @@ export class BookedDatesComponent implements OnInit, OnDestroy {
     this.getSubscriptionBookedDates = this.datesService.getDates().subscribe(
       (response) => {
         const datesRange = this.datesService.extractIndividualDates(response);
-        this.listBookedDates = datesRange.map(date => this.datesService.formatDateToStringForClient(date));
+        this.listBookedDates = [...new Set(datesRange.map(date => this.datesService.formatDateToStringForClient(date)))];
       },
       (error) => {
         console.error("Error occurred while get data to mysql. Error: ", error);
