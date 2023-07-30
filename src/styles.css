@@ -35,3 +35,18 @@ body {
   flex: 1;
   padding: 20px 0;
 }
+
+.header {
+  background-color: var(--primaryColor);
+  padding: 40px 15px;
+}
+
+.header .nav-link {
+  color: var(--secondaryColor);
+}
+
+.header .nav-link.active {
+  color: var(--secondaryColor);
+  text-decoration: underline;
+  font-weight: bold;
+}
