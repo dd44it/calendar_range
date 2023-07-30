@@ -4,6 +4,7 @@
 </div>
 <div class="modal-body">
   <p>{{ resultMessage }}</p>
+  <img *ngIf="gifLink" [src]="gifLink" alt="GIF Image">
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="closeModal()">Close</button>

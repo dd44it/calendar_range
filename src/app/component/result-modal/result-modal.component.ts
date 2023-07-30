@@ -9,6 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class ResultModalComponent {
   @Input() resultMessage: string = '';
+  gifLink: string | undefined;
 
   constructor(public bsModalRef: BsModalRef) {}
 

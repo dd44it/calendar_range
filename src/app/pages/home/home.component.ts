@@ -55,7 +55,8 @@ export class HomeComponent implements OnInit, OnDestroy  {
       const userRangeArray = this.datesService.extractIndividualDates([obj]);
       const checkRangeValidation = this.isCleanDates(userRangeArray);
       if(checkRangeValidation){
-        this.openResultModal("You choose not valid range. Inside you range booked dates.");
+        const failGIF = "https://media.tenor.com/q9_zZ9BgOYEAAAAM/bart-the-simpsons.gif"
+        this.openResultModal("You choose not valid range. Inside you range booked dates.", failGIF);
         return;
       }
 
@@ -98,9 +99,10 @@ export class HomeComponent implements OnInit, OnDestroy  {
     return flagValidation;
   }
 
-  openResultModal(resultMessage: string): void {
+  openResultModal(resultMessage: string, gifLink?: string): void {
     const initialState = {
-      resultMessage: resultMessage
+      resultMessage: resultMessage, 
+      gifLink: gifLink
     };
     this.modalService.show(ResultModalComponent, { initialState });
   }
