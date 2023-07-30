@@ -1,27 +1,55 @@
-# CalendarRange
+# Angular App with Node.js, Express, and MySQL
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
+## Description
 
-## Development server
+This is an Angular web application with a Node.js, Express, and MySQL backend. The frontend is built using Angular and ngx-bootstrap for enhanced UI components. The backend is powered by Node.js and Express, while the data is stored in a MySQL database.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Getting Started
 
-## Code scaffolding
+To run the application, follow the steps below:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Prerequisites
 
-## Build
+- Node.js and npm (Node Package Manager) should be installed on your system.
+- MySQL server should be installed and running.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Installation
 
-## Running unit tests
+Clone this repository to your local machine:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+git clone https://github.com/dd44it/calendar_range.git
+cd calendar_range
+npm install
+```
 
-## Running end-to-end tests
+### Configure the Backend
+Create a .env file in the server folder of the project.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Add the necessary configuration data in the .env file to connect to your MySQL database. The file should look something like this:
 
-## Further help
+```bash
+DB_HOST=your_mysql_host
+DB_USER=your_mysql_username
+DB_PASS=your_mysql_password
+DB_NAME=your_mysql_database_name
+```
+Replace your_mysql_host, your_mysql_username, your_mysql_password, and your_mysql_database_name with your actual MySQL database connection details.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Import Data to MySQL Database
+Use the provided SQL file (e.g., data.sql) to import the necessary data into your MySQL database. This file contains the data required for the application to function correctly.
+
+##  Running the Application
+Start the backend server by running the following command from the server directory:
+```bash
+npm start
+```
+
+This will connect the backend to your MySQL database using the configuration provided in the .env file.
+
+Now, start the frontend development server from the project's root folder:
+```bash
+ng serve -o
+```
+The -o flag will automatically open the application in your default web browser.
+The application should now be up and running! You can access it by navigating to http://localhost:4200 in your web browser.
