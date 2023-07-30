@@ -13,6 +13,7 @@
         [(ngModel)]="selectedDateRange"
         #dateRangeInput="ngModel"
         required 
+        autocomplete="off"
         [ngClass]="{'border-danger': dateRangeInput.invalid && (dateRangeInput.dirty || dateRangeInput.touched)}"
       />
       <small class="form-text text-danger" *ngIf="dateRangeInput.invalid && (dateRangeInput.dirty || dateRangeInput.touched)">
