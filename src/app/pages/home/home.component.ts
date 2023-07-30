@@ -1,20 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DateService } from 'src/app/services/date.service';
 import { BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ResultModalComponent } from 'src/app/component/result-modal/result-modal.component';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.component.html',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy  {
   disabledDates: Date[] = [];
   selectedDateRange: any;
   readonlyInput: string = '';
   @ViewChild('dateRangeForm', { static: true }) dateRangeForm!: NgForm;
   @ViewChild(BsDaterangepickerDirective, { static: true }) datepicker!: BsDaterangepickerDirective;
+  private getSubscription?: Subscription;
+  private postSubscription?: Subscription;
 
   constructor(
     private datesService: DateService,
@@ -26,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   getDateList(): void {
-    this.datesService.getDates().subscribe(
+    this.getSubscription = this.datesService.getDates().subscribe(
       (response) => {
         this.disabledDates = this.extractIndividualDates(response);
         console.log(this.disabledDates)
@@ -66,7 +69,7 @@ export class HomeComponent implements OnInit {
       const formattedEndDate = this.formatDateToString(endDate);
       const obj = { date_start: formattedStartDate, date_end: formattedEndDate };
 
-      this.datesService.postDates(obj).subscribe(
+      this.postSubscription = this.datesService.postDates(obj).subscribe(
         (response) => {
           if(response.body.error){
             this.openResultModal(response.body.error);
@@ -98,6 +101,15 @@ export class HomeComponent implements OnInit {
       resultMessage: resultMessage
     };
     this.modalService.show(ResultModalComponent, { initialState });
+  }
+
+  ngOnDestroy() {
+    if (this.getSubscription) {
+      this.getSubscription.unsubscribe();
+    }
+    if (this.postSubscription) {
+      this.postSubscription.unsubscribe();
+    }
   }
 
 }
