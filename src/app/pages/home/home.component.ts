@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DateService } from 'src/app/services/date.service';
 import { BsDaterangepickerDirective } from 'ngx-bootstrap/datepicker';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -62,8 +62,8 @@ export class HomeComponent implements OnInit {
     if (this.selectedDateRange && this.selectedDateRange.length === 2) {
       const startDate = new Date(this.selectedDateRange[0]);
       const endDate = new Date(this.selectedDateRange[1]);
-      const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-      const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+      const formattedStartDate = this.formatDateToString(startDate);
+      const formattedEndDate = this.formatDateToString(endDate);
       const obj = { date_start: formattedStartDate, date_end: formattedEndDate };
 
       this.datesService.postDates(obj).subscribe(
@@ -87,6 +87,10 @@ export class HomeComponent implements OnInit {
     } else {
       console.error('Please select a valid date range before saving.');
     }
+  }
+
+  formatDateToString(date: Date): string {
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
 
   openResultModal(resultMessage: string): void {
