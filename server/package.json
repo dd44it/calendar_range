@@ -20,7 +20,10 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@nestjs/typeorm": "^10.0.0",
     "cors": "^2.8.5",
-    "ts-node": "^10.9.1"
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.17"
   }
 }
