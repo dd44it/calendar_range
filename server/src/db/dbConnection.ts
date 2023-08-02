@@ -1,24 +1,23 @@
-// import mysql from "mysql2";
-const mysql = require('mysql2');
-const dotenv = require('dotenv');
-
+import { DataSource } from "typeorm";
+import { Date } from "../entities/date.entity";
+import dotenv from "dotenv";
 dotenv.config();
 
-const dbConfig = {
+export const AppDataSource = new DataSource({
+  type: "mysql",
   host: process.env.DB_HOST,
-  user: process.env.DB_USER,
+  port: 3306,
+  username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-};
-
-const connection = mysql.createConnection(dbConfig);
-
-connection.connect((err: any) => {
-  if (err) {
-    console.error("Error connecting to MySQL:", err);
-    return;
-  }
-  console.log("Connected to MySQL database!");
+  entities: [Date],
+  synchronize: true,
+  logging: false,
 });
 
-export default connection;
+AppDataSource.initialize()
+  .then(() => {
+    console.log("DB connected");
+  })
+  .catch((error) => console.log(error));
+
